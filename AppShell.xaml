@@ -7,8 +7,8 @@
     Title="naidis_TARge25">
 
     <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+        Title="Avaleht"
+        ContentTemplate="{DataTemplate local:StartPage}"
+        Route="StartPage" />
 
 </Shell>
