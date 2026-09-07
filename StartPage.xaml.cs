@@ -2,19 +2,20 @@ namespace naidis_TARge25;
 
 public partial class StartPage : ContentPage
 {
-	VerticalStackLayout vst;
+	VerticalStackLayout vsl;
 	public List<ContentPage> Lehed = new List<ContentPage>() { new TextPage(), new FigurePage() };
 	public List<string> Lehenimed = new List<string>() { "Tekst", "Kujundus" };
 
 	public StartPage()
 	{
-		vst = new VerticalStackLayout();
+		vsl = new VerticalStackLayout();
 		for (int i=0; i<Lehed.Count; i++)
 		{
 			Button nupp = new Button
 			{
 				Text = Lehenimed[i],
 				FontSize = 20,
+				FontFamily = "Huxtable",
 				BackgroundColor = Colors.LightBlue,
 				TextColor = Colors.White,
 				CornerRadius = 10,
@@ -25,8 +26,8 @@ public partial class StartPage : ContentPage
 				var valik = Lehed[nupp.ZIndex];
 				Navigation.PushAsync(Lehed[i]);
 			};
-			vst.Add(nupp);
+			vsl.Add(nupp);
 		}
-		Content = vst;
+		Content = vsl;
 	}
 }
