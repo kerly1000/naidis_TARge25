@@ -12,26 +12,43 @@ public partial class TextPage : ContentPage
 	{
 		lbl = new Label
 		{
-			Text = "Tekstileht",
+			Text = "Pealkiri",
 			FontSize = 30,
 			FontFamily = "Huxtable",
+			TextColor = Colors.LightSalmon,
 			HorizontalOptions = LayoutOptions.Center,
 			FontAttributes = FontAttributes.Bold
 		};
+
 		editor = new Editor
 		{
 			Placeholder = "Sisesta tekst siia...",
+			PlaceholderColor = Colors.DarkSalmon,
 			FontSize = 20,
 			FontFamily = "Huxtable",
 			HorizontalOptions = LayoutOptions.Center,
-			FontAttributes = FontAttributes.Bold,
+			FontAttributes = FontAttributes.Italic,
 			Keyboard = Keyboard.Text
 		};
+
 		editor.TextChanged += (s, e) =>
 		{
 			lbl.Text = editor.Text;
 		};
-		hsl = new HorizontalStackLayout();
+
+        Button speechButton = new Button
+        {
+            Text = "Loe Ette",
+            FontSize = 22,
+            FontFamily = "Huxtable",
+            BackgroundColor = Colors.Plum,
+            TextColor = Colors.LightSalmon,
+            CornerRadius = 10
+        };
+
+        speechButton.Clicked += Nupp_Clicked;
+
+        hsl = new HorizontalStackLayout { Spacing = 20, HorizontalOptions = LayoutOptions.Center};
 		 for (int i = 0; i < nupud.Count; i++)
 		{
 			Button nupp = new Button
@@ -43,7 +60,9 @@ public partial class TextPage : ContentPage
 				FontAttributes = FontAttributes.Bold,
 				BackgroundColor = Colors.Fuchsia,
 				TextColor = Colors.Plum,
-				ZIndex = i
+                CornerRadius = 10,
+                HeightRequest = 50,
+                ZIndex = i
 			};
 			hsl.Add(nupp); // Lisame nupu horisontaalne virnastus
 			nupp.Clicked += Nupp_Clicked;
@@ -53,7 +72,8 @@ public partial class TextPage : ContentPage
 		{
 			Padding = 20,
 			Spacing = 20,
-            Children = { lbl, editor, hsl }
+            Children = { lbl, editor, speechButton, hsl },
+			HorizontalOptions = LayoutOptions.Center
 		};
 		Content = vsl;
 	}
@@ -73,9 +93,33 @@ public partial class TextPage : ContentPage
 		{
 			Navigation.PushAsync(new FigurePage()); // Edasi lehele
 		}
-		else if (nupp.ZIndex == 3)
-		{
-			//Räägi nupp
-		}
+		
 	}
+
+    private async void Btn_Clicked(object? sender, EventArgs e)
+    {
+        IEnumerable<Locale> locales = await TextToSpeech.Default.GetLocalesAsync();
+
+        SpeechOptions options = new SpeechOptions()
+        {
+            Pitch = 1.5f, // 0.0 - 2.0
+            Volume = 0.75f, // 0.0 - 1.0
+            Locale = locales.FirstOrDefault()
+        };
+        string? text = editor.Text;
+        if (string.IsNullOrWhiteSpace(text))
+        {
+            await DisplayAlert("Viga", "Palun sisesta tekst", "Ok");
+            return;
+        }
+        try
+        {
+            await TextToSpeech.SpeakAsync(text, options);
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("TTS viga", ex.Message, "OK");
+        }
+
+    }
 }

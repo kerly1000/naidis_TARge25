@@ -8,7 +8,7 @@ public partial class StartPage : ContentPage
 
 	public StartPage()
 	{
-		vsl = new VerticalStackLayout();
+		vsl = new VerticalStackLayout { Padding = 20, Spacing = 20};
 		for (int i=0; i<Lehed.Count; i++)
 		{
 			Button nupp = new Button
@@ -19,14 +19,16 @@ public partial class StartPage : ContentPage
 				BackgroundColor = Colors.LightBlue,
 				TextColor = Colors.White,
 				CornerRadius = 10,
+				HeightRequest = 60,
 				ZIndex = i
 			};
+			vsl.Add(nupp);
 			nupp.Clicked += (s, e) =>
 			{
 				var valik = Lehed[nupp.ZIndex];
 				Navigation.PushAsync(Lehed[i]);
 			};
-			vsl.Add(nupp);
+			
 		}
 		Content = vsl;
 	}

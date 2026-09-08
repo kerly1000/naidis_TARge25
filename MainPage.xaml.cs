@@ -44,8 +44,11 @@
             CounterBtn.Text = $"Clicked {count} times";
             ResetBtn.Text = $"Reset tehtud!";
             dotnetBot.IsVisible = true; // Teeme pildi nähtavaks, kui count on 0
+            dotnetBot.Rotation = 0;
+            dotnetBot.Opacity = 1;
             dotnetBot.Scale += 1; // Teeme pildi suureks
-            
+
+            dotnetBot.IsVisible = true;
             ResetBtn.ClearValue(Button.BackgroundColorProperty); // Eemaldame nupu värvi, et see taastakse algse värvi
         }
 

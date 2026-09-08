@@ -5,7 +5,20 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:naidis_TARge25"
     Title="naidis_TARge25">
-
+    
+    <Shell.TitleView>
+        <Label
+            Text="Näidis"
+            FontFamily="Huxtable"
+            FontSize="Title"
+            TextColor="DarkGoldenrod"
+            VerticalTextAlignment="Center"
+            VerticalOptions="Center"
+            HorizontalOptions="Start"
+            Padding="25,0,0,0"
+            HeightRequest="50"
+            />
+    </Shell.TitleView>
     <ShellContent
         Title="Avaleht"
         ContentTemplate="{DataTemplate local:StartPage}"

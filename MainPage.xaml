@@ -27,7 +27,7 @@
 
             
 
-            <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+            <HorizontalStackLayout Spacing="15" HorizontalOptions="Center">
 
                 <Button
                     x:Name="CounterBtn"
