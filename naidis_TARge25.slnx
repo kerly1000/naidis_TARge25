@@ -1,4 +1,7 @@
 <Solution>
+  <Project Path="../Valgusfoor/Valgusfoor.csproj" Id="c60fe0bd-aeeb-4c30-9390-9a809f9e5121">
+    <Deploy />
+  </Project>
   <Project Path="naidis_TARge25.csproj">
     <Deploy />
   </Project>
