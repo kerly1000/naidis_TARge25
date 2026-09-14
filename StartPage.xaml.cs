@@ -9,13 +9,15 @@ public partial class StartPage : ContentPage
     public List<ContentPage> Lehed = new List<ContentPage>()
     {
         new TextPage(),
-        new ValgusfoorPage()
+        new ValgusfoorPage(),
+        new PickerPage()
     };
 
     public List<string> Lehenimed = new List<string>()
     {
         "Tekst",
-        "Valgusfoor"
+        "Valgusfoor",
+        "Valik"
     };
 
     public StartPage()

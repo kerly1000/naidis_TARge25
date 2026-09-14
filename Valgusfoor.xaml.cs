@@ -7,9 +7,11 @@ public partial class ValgusfoorPage : ContentPage
     BoxView punane;
     BoxView kollane;
     BoxView roheline;
-
     Button onBtn;
     Button offBtn;
+    Label valgusLabel;
+
+    bool foorOn = false;
 
     public ValgusfoorPage()
     {
@@ -43,6 +45,66 @@ public partial class ValgusfoorPage : ContentPage
             CornerRadius = 50
         };
 
+        // Alguses ei saa tulesid klõpsata
+        punane.IsEnabled = false;
+        kollane.IsEnabled = false;
+        roheline.IsEnabled = false;
+
+        // Pealkiri / tekst
+        valgusLabel = new Label
+        {
+            Text = "Vali valgus",
+            FontSize = 24,
+            HorizontalOptions = LayoutOptions.Center
+        };
+
+        // Punase tule klõps
+        punane.GestureRecognizers.Add(new TapGestureRecognizer
+        {
+            Command = new Command(() =>
+            {
+                if (foorOn)
+                {
+                    valgusLabel.Text = "Seisa!";
+                    punane.Color = Colors.Red;
+                    kollane.Color = Colors.Grey;
+                    roheline.Color = Colors.Grey;
+                }
+            })
+        });
+
+        // Kollase tule klõps
+        kollane.GestureRecognizers.Add(new TapGestureRecognizer
+        {
+            Command = new Command(() =>
+            {
+                if (foorOn)
+                    
+                {
+                    valgusLabel.Text = "Ole valmis!";
+                    punane.Color = Colors.Grey;
+                    kollane.Color = Colors.Yellow;
+                    roheline.Color = Colors.Grey;
+                }
+            })
+        });
+
+        // Rohelise tule klõps
+        roheline.GestureRecognizers.Add(new TapGestureRecognizer
+        {
+            Command = new Command(() =>
+            {
+                if (foorOn)
+                    
+                {
+                    valgusLabel.Text = "Sõida!";
+                    punane.Color = Colors.Grey;
+                    kollane.Color = Colors.Grey;
+                    roheline.Color = Colors.Green;
+                }
+            })
+        });
+
         // ON nupp
         onBtn = new Button
         {
@@ -68,11 +130,11 @@ public partial class ValgusfoorPage : ContentPage
             Spacing = 15,
             HorizontalOptions = LayoutOptions.Center,
             Children =
-            {
-                punane,
-                kollane,
-                roheline
-            }
+        {
+            punane,
+            kollane,
+            roheline
+        }
         };
 
         // Nupud kõrvuti
@@ -81,38 +143,71 @@ public partial class ValgusfoorPage : ContentPage
             Spacing = 20,
             HorizontalOptions = LayoutOptions.Center,
             Children =
-            {
-                onBtn,
-                offBtn
-            }
+    {
+        onBtn,
+        offBtn
+    }
         };
 
-        // Kõik ekraanile
-        VerticalStackLayout page = new VerticalStackLayout
+        // Taustapilt
+        Grid page = new Grid();
+
+        Image backgroundImage = new Image
+        {
+            Source = "linn.jpg",
+            Aspect = Aspect.AspectFill
+        };
+
+        page.Children.Add(backgroundImage);
+
+        // Foori sisu taustapildi peale
+        VerticalStackLayout content = new VerticalStackLayout
         {
             Spacing = 20,
             Padding = 20,
             Children =
-            {
-                vsl,
-                hsl
-            }
+    {
+        valgusLabel,
+        vsl,
+        hsl
+    }
         };
 
+        page.Children.Add(content);
+
         Content = page;
+
     }
 
     private void OnBtn_Clicked(object sender, EventArgs e)
     {
+        foorOn = true;
+
         punane.Color = Colors.Red;
         kollane.Color = Colors.Yellow;
         roheline.Color = Colors.Green;
+
+        punane.IsEnabled = true;
+        kollane.IsEnabled = true;
+        roheline.IsEnabled = true;
+
+        valgusLabel.Text = "Vali valgus";
     }
 
     private void OffBtn_Clicked(object sender, EventArgs e)
     {
+        foorOn = false;
+
         punane.Color = Colors.Gray;
         kollane.Color = Colors.Gray;
         roheline.Color = Colors.Gray;
+
+        punane.IsEnabled = false;
+        kollane.IsEnabled = false;
+        roheline.IsEnabled = false;
+
+        valgusLabel.Text = "Lülita esmalt foor sisse";
     }
+
+
 }
