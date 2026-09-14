@@ -24,13 +24,13 @@ public partial class PickerPage : ContentPage
 				switch (picker.SelectedIndex)
 				{
 					case 0:
-						BackgroundColor = Colors.Red;
+						BackgroundColor = Colors.IndianRed;
 						break;
 					case 1:
-						BackgroundColor = Colors.Green;
+						BackgroundColor = Colors.SeaGreen;
 						break;
 					case 2:
-						BackgroundColor = Colors.Blue;
+						BackgroundColor = Colors.LightSkyBlue;
 						break;
 					default:
 						break;
