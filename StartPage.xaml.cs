@@ -10,14 +10,16 @@ public partial class StartPage : ContentPage
     {
         new TextPage(),
         new ValgusfoorPage(),
-        new PickerPage()
+        new PickerPage(),
+        new StepperSliderPage()
     };
 
     public List<string> Lehenimed = new List<string>()
     {
         "Tekst",
         "Valgusfoor",
-        "Valik"
+        "Valik",
+        "Slider"
     };
 
     public StartPage()
