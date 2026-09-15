@@ -11,7 +11,8 @@ public partial class StartPage : ContentPage
         new TextPage(),
         new ValgusfoorPage(),
         new PickerPage(),
-        new StepperSliderPage()
+        new StepperSliderPage(),
+        new TreePage()
     };
 
     public List<string> Lehenimed = new List<string>()
@@ -19,7 +20,8 @@ public partial class StartPage : ContentPage
         "Tekst",
         "Valgusfoor",
         "Valik",
-        "Slider"
+        "Slider",
+        "Puu"
     };
 
     public StartPage()
@@ -37,8 +39,8 @@ public partial class StartPage : ContentPage
                 Text = Lehenimed[i],
                 FontSize = 20,
                 FontFamily = "Huxtable",
-                BackgroundColor = Colors.LightBlue,
-                TextColor = Colors.White,
+                BackgroundColor = Colors.Plum,
+                TextColor = Colors.Beige,
                 CornerRadius = 10,
                 HeightRequest = 60,
                 ZIndex = i
