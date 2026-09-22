@@ -12,7 +12,9 @@ public partial class StartPage : ContentPage
         new ValgusfoorPage(),
         new PickerPage(),
         new StepperSliderPage(),
-        new TreePage()
+        new TreePage(),
+        new PopUpPage(),
+        new GridPage()
     };
 
     public List<string> Lehenimed = new List<string>()
@@ -21,7 +23,9 @@ public partial class StartPage : ContentPage
         "Valgusfoor",
         "Valik",
         "Slider",
-        "Puu"
+        "Puu",
+        "PopUp",
+        "Grid"
     };
 
     public StartPage()
