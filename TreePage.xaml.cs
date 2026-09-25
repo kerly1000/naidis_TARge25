@@ -1,4 +1,5 @@
 using Microsoft.Maui.Layouts;
+using Microsoft.Maui.Controls;
 
 namespace naidis_TARge25;
 
@@ -26,6 +27,26 @@ public partial class TreePage : ContentPage
 
     private void CreateTree()
     {
+        // Muru
+        BoxView grass = new BoxView
+        {
+            Color = Colors.ForestGreen
+        };
+
+        AbsoluteLayout.SetLayoutBounds(
+            grass,
+            new Rect(0, 0.82, 1, 0.18)
+        );
+
+        AbsoluteLayout.SetLayoutFlags(
+            grass,
+            AbsoluteLayoutFlags.PositionProportional |
+            AbsoluteLayoutFlags.WidthProportional |
+            AbsoluteLayoutFlags.HeightProportional
+        );
+
+        TreeLayout.Children.Add(grass);
+
         // tüvi
         BoxView trunk = new BoxView
         {
@@ -34,7 +55,7 @@ public partial class TreePage : ContentPage
 
         AbsoluteLayout.SetLayoutBounds(
             trunk,
-            new Rect(0.5, 0.65, 50, 150)
+            new Rect(0.5, 0.68, 50, 150)
         );
 
         AbsoluteLayout.SetLayoutFlags(
@@ -46,12 +67,12 @@ public partial class TreePage : ContentPage
 
 
         // lehed
-        AddLeaves(0.50, 0.30, 90, Colors.ForestGreen);
-        AddLeaves(0.35, 0.40, 75, Colors.Green);
-        AddLeaves(0.65, 0.40, 75, Colors.LimeGreen);
-        AddLeaves(0.50, 0.20, 80, Colors.DarkGreen);
-        AddLeaves(0.35, 0.30, 65, Colors.YellowGreen);
-        AddLeaves(0.65, 0.30, 65, Colors.ForestGreen);
+        AddLeaves(0.50, 0.35, 90, Colors.ForestGreen);
+        AddLeaves(0.35, 0.45, 75, Colors.Green);
+        AddLeaves(0.65, 0.45, 75, Colors.LimeGreen);
+        AddLeaves(0.50, 0.25, 80, Colors.DarkGreen);
+        AddLeaves(0.35, 0.35, 65, Colors.YellowGreen);
+        AddLeaves(0.65, 0.35, 65, Colors.ForestGreen);
     }
 
 
@@ -83,6 +104,8 @@ public partial class TreePage : ContentPage
         );
 
         TreeLayout.Children.Add(leaf);
+
+        leaves.Add(leaf);
     }
     private void CreateControlPanel()
     {
@@ -120,6 +143,7 @@ public partial class TreePage : ContentPage
             Maximum = 1.0,
             Value = 1.0
         };
+
 
 
         // Stepper
@@ -202,5 +226,12 @@ public partial class TreePage : ContentPage
 
 
         
+    }
+    private void OnOpacityChanged(object sender, ValueChangedEventArgs e)
+    {
+        foreach (Frame leaf in leaves)
+        {
+            leaf.Opacity = e.NewValue;
+        }
     }
 }

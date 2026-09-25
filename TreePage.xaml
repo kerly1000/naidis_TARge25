@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="naidis_TARge25.TreePage"
@@ -6,18 +5,13 @@
 
     <Grid RowDefinitions="55*,45*">
 
-        <!--Ülemine osa: puu -->
+        <!-- Puu ala -->
         <AbsoluteLayout x:Name="TreeLayout"
-                Grid.Row="0"
-                BackgroundColor="LightSkyBlue">
-
-            <BoxView Color="ForestGreen"
-             AbsoluteLayout.LayoutBounds="0, 0.8, 1, 0.2"
-             AbsoluteLayout.LayoutFlags="PositionProportional,WidthProportional" />
-
+                        Grid.Row="0"
+                        BackgroundColor="LightSkyBlue">
         </AbsoluteLayout>
 
-        <!-- Alumine osa: juhtpaneel -->
+        <!-- Juhtpaneel -->
         <ScrollView Grid.Row="1"
                     BackgroundColor="White">
 
