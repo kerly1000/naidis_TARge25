@@ -6,6 +6,7 @@ namespace naidis_TARge25;
 public partial class TreePage : ContentPage
 
 {
+    
     private Picker actionPicker;
     private Button startButton;
     private Label infoLabel;
@@ -14,6 +15,10 @@ public partial class TreePage : ContentPage
     private Label speedLabel;
     private DatePicker datePicker;
     private TimePicker timePicker;
+
+    
+    private AbsoluteLayout treeContainer;
+    private BoxView trunk;
 
     private List<Frame> leaves = new List<Frame>();
     private List<Frame> flowers = new List<Frame>();
@@ -31,7 +36,6 @@ public partial class TreePage : ContentPage
     private void CreateTree()
     {
         // Muru
-        // Muru
         BoxView grass = new BoxView
         {
             Color = Colors.ForestGreen
@@ -44,16 +48,33 @@ public partial class TreePage : ContentPage
 
         AbsoluteLayout.SetLayoutFlags(
             grass,
-            AbsoluteLayoutFlags.XProportional |
-            AbsoluteLayoutFlags.YProportional |
-            AbsoluteLayoutFlags.WidthProportional |
-            AbsoluteLayoutFlags.HeightProportional
+            AbsoluteLayoutFlags.All
         );
 
         TreeLayout.Children.Add(grass);
 
-        // tüvi
-        BoxView trunk = new BoxView
+
+        // Puu konteiner
+        treeContainer = new AbsoluteLayout();
+
+        treeContainer.AnchorX = 0.5;
+        treeContainer.AnchorY = 0.8;
+
+        AbsoluteLayout.SetLayoutBounds(
+            treeContainer,
+            new Rect(0, 0, 1, 1)
+        );
+
+        AbsoluteLayout.SetLayoutFlags(
+            treeContainer,
+            AbsoluteLayoutFlags.All
+        );
+
+        TreeLayout.Children.Add(treeContainer);
+
+
+        // Tüvi
+        trunk = new BoxView
         {
             Color = Colors.SaddleBrown
         };
@@ -68,10 +89,10 @@ public partial class TreePage : ContentPage
             AbsoluteLayoutFlags.PositionProportional
         );
 
-        TreeLayout.Children.Add(trunk);
+        treeContainer.Children.Add(trunk);
 
 
-        // lehed
+        // Lehed
         AddLeaves(0.50, 0.35, 90, Colors.ForestGreen);
         AddLeaves(0.35, 0.45, 75, Colors.Green);
         AddLeaves(0.65, 0.45, 75, Colors.LimeGreen);
@@ -108,7 +129,7 @@ public partial class TreePage : ContentPage
             AbsoluteLayoutFlags.PositionProportional
         );
 
-        TreeLayout.Children.Add(leaf);
+        treeContainer.Children.Add(leaf);
 
         leaves.Add(leaf);
     }
@@ -137,7 +158,7 @@ public partial class TreePage : ContentPage
             AbsoluteLayoutFlags.PositionProportional
         );
 
-        TreeLayout.Children.Add(flower);
+        treeContainer.Children.Add(flower);
 
         flowers.Add(flower);
     }
@@ -151,7 +172,7 @@ public partial class TreePage : ContentPage
 
         actionPicker.Items.Add("Kasva");
         actionPicker.Items.Add("Õitse");
-        actionPicker.Items.Add("Värise");
+        actionPicker.Items.Add("Sahise");
         actionPicker.Items.Add("Langeta");
 
 
@@ -294,6 +315,31 @@ public partial class TreePage : ContentPage
         {
             await BloomTree();
         }
+
+        else if (action == "Sahise")
+        {
+            await ShakeTree();
+        }
+
+        else if (action == "Langeta")
+        {
+            int month = datePicker.Date.Value.Month;
+
+            TimeSpan selectedTime = timePicker.Time ?? TimeSpan.Zero;
+            int hour = selectedTime.Hours;
+
+            bool isWinter = month == 12 || month == 1 || month == 2;
+            bool isDaytime = hour >= 8 && hour < 17;
+
+            if (isWinter && isDaytime)
+            {
+                await CutDownTree();
+            }
+            else
+            {
+                infoLabel.Text = "Puid võib langetada ainult talvel ja kell 08:00–17:00.";
+            }
+        }
     }
 
     //puu kasvamise meetod
@@ -321,8 +367,7 @@ public partial class TreePage : ContentPage
     //õite kasvamise meetod
     private async Task BloomTree()
     {
-        infoLabel.Text = "Puu õitseb...";
-
+        // õite loomine, kui neid ei ole
         if (flowers.Count == 0)
         {
             AddFlower(0.45, 0.30, 20);
@@ -334,17 +379,81 @@ public partial class TreePage : ContentPage
             AddFlower(0.68, 0.30, 15);
         }
 
+        
+        // kontrollime, kas õied on nähtavad
+        bool flowersVisible = flowers[0].Opacity > 0;
+
+        if (!flowersVisible)
+        {
+            infoLabel.Text = "Puu õitseb!";
+
+            List<Task> animations = new List<Task>();
+
+            foreach (Frame flower in flowers)
+            {
+                animations.Add(
+                    flower.FadeTo(1, animationSpeed)
+                );
+            }
+
+            await Task.WhenAll(animations);
+        }
+        
+        else
+        {
+            infoLabel.Text = "Enam ei õitse";
+
+            List<Task> animations = new List<Task>();
+
+            foreach (Frame flower in flowers)
+            {
+                animations.Add(
+                    flower.FadeTo(0, animationSpeed)
+                );
+            }
+
+            await Task.WhenAll(animations);
+
+            infoLabel.Text = "Puu ei õitse";
+        }
+    }
+
+    //meetod sahistamiseks 
+    private async Task ShakeTree()
+    {
+        infoLabel.Text = "Puu sahiseb tuules...";
+
         List<Task> animations = new List<Task>();
 
-        foreach (Frame flower in flowers)
+        foreach (Frame leaf in leaves)
         {
-            animations.Add(
-                flower.FadeTo(1, animationSpeed)
-            );
+            animations.Add(ShakeLeaf(leaf));
         }
 
         await Task.WhenAll(animations);
 
-        infoLabel.Text = "Puu õitseb!";
+        infoLabel.Text = "Puu ei sahise";
+    }
+
+    //meetod lehe liigutamiseks
+    private async Task ShakeLeaf(Frame leaf)
+    {
+        await leaf.TranslateTo(-10, 0, animationSpeed / 4);
+        await leaf.TranslateTo(10, 0, animationSpeed / 2);
+        await leaf.TranslateTo(-10, 0, animationSpeed / 2);
+        await leaf.TranslateTo(0, 0, animationSpeed / 4);
+    }
+
+    //meetod puu langetamiseks
+    private async Task CutDownTree()
+    {
+        infoLabel.Text = "Ettevaatust! Puu langeb...";
+
+        await treeContainer.RotateTo(
+            90,
+            animationSpeed
+        );
+
+        infoLabel.Text = "Langetatud";
     }
 }
