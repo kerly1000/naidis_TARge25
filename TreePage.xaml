@@ -8,7 +8,7 @@
         <!-- Puu ala -->
         <AbsoluteLayout x:Name="TreeLayout"
                         Grid.Row="0"
-                        BackgroundColor="LightSkyBlue">
+                        BackgroundColor="SkyBlue">
         </AbsoluteLayout>
 
         <!-- Juhtpaneel -->

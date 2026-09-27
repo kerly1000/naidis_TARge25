@@ -28,6 +28,7 @@ public partial class TreePage : ContentPage
     private void CreateTree()
     {
         // Muru
+        // Muru
         BoxView grass = new BoxView
         {
             Color = Colors.ForestGreen
@@ -35,12 +36,13 @@ public partial class TreePage : ContentPage
 
         AbsoluteLayout.SetLayoutBounds(
             grass,
-            new Rect(0, 0.82, 1, 0.18)
+            new Rect(0, 1, 1, 0.27)
         );
 
         AbsoluteLayout.SetLayoutFlags(
             grass,
-            AbsoluteLayoutFlags.PositionProportional |
+            AbsoluteLayoutFlags.XProportional |
+            AbsoluteLayoutFlags.YProportional |
             AbsoluteLayoutFlags.WidthProportional |
             AbsoluteLayoutFlags.HeightProportional
         );
@@ -144,7 +146,7 @@ public partial class TreePage : ContentPage
             Value = 1.0
         };
 
-
+        opacitySlider.ValueChanged += OnOpacityChanged;
 
         // Stepper
         speedStepper = new Stepper
@@ -217,15 +219,7 @@ public partial class TreePage : ContentPage
 
         ControlPanel.Children.Add(timePicker);
 
-
-        // Juhtpaneel ScrollView sisse
-        ScrollView controlScroll = new ScrollView
-        {
-            Content = ControlPanel
-        };
-
-
-        
+       
     }
     private void OnOpacityChanged(object sender, ValueChangedEventArgs e)
     {
