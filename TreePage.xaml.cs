@@ -16,6 +16,9 @@ public partial class TreePage : ContentPage
     private TimePicker timePicker;
 
     private List<Frame> leaves = new List<Frame>();
+    private List<Frame> flowers = new List<Frame>();
+    private uint animationSpeed = 1000;
+    
     public TreePage()
     {
         InitializeComponent();
@@ -24,7 +27,7 @@ public partial class TreePage : ContentPage
         CreateControlPanel();
     }
 
-
+    // Meetod puu loomiseks
     private void CreateTree()
     {
         // Muru
@@ -109,6 +112,35 @@ public partial class TreePage : ContentPage
 
         leaves.Add(leaf);
     }
+
+    //Meetod õite lisamiseks
+    private void AddFlower(double x, double y, double size)
+    {
+        Frame flower = new Frame
+        {
+            BackgroundColor = Colors.HotPink,
+            CornerRadius = (float)(size / 2),
+            WidthRequest = size,
+            HeightRequest = size,
+            Padding = 0,
+            HasShadow = false,
+            Opacity = 0
+        };
+
+        AbsoluteLayout.SetLayoutBounds(
+            flower,
+            new Rect(x, y, size, size)
+        );
+
+        AbsoluteLayout.SetLayoutFlags(
+            flower,
+            AbsoluteLayoutFlags.PositionProportional
+        );
+
+        TreeLayout.Children.Add(flower);
+
+        flowers.Add(flower);
+    }
     private void CreateControlPanel()
     {
         // Picker
@@ -128,6 +160,8 @@ public partial class TreePage : ContentPage
         {
             Text = "Käivita"
         };
+
+        startButton.Clicked += OnStartClicked;
 
 
         // Label
@@ -156,6 +190,8 @@ public partial class TreePage : ContentPage
             Increment = 100,
             Value = 1000
         };
+
+        speedStepper.ValueChanged += OnSpeedChanged;
 
         speedLabel = new Label
         {
@@ -221,11 +257,94 @@ public partial class TreePage : ContentPage
 
        
     }
+    //slideri meetod, mis muudab lehtede läbipaistvust
     private void OnOpacityChanged(object sender, ValueChangedEventArgs e)
     {
         foreach (Frame leaf in leaves)
         {
             leaf.Opacity = e.NewValue;
         }
+    }
+
+    //stepperi meetod, mis muudab animatsiooni kiirust
+    private void OnSpeedChanged(object sender, ValueChangedEventArgs e)
+    {
+        animationSpeed = (uint)e.NewValue;
+
+        speedLabel.Text = $"Kiirus: {animationSpeed} ms";
+    }
+
+    //pickeri meetod, mis käivitab valitud tegevuse
+    private async void OnStartClicked(object sender, EventArgs e)
+    {
+        if (actionPicker.SelectedIndex == -1)
+        {
+            infoLabel.Text = "Palun vali tegevus!";
+            return;
+        }
+
+        string action = actionPicker.SelectedItem.ToString();
+
+        if (action == "Kasva")
+        {
+            await GrowTree();
+        }
+
+        else if (action == "Õitse")
+        {
+            await BloomTree();
+        }
+    }
+
+    //puu kasvamise meetod
+    private async Task GrowTree()
+    {
+        infoLabel.Text = "Puu kasvab...";
+
+        List<Task> animations = new List<Task>();
+
+        foreach (Frame leaf in leaves)
+        {
+            animations.Add(
+                leaf.ScaleTo(
+                    leaf.Scale * 1.2,
+                    animationSpeed
+                )
+            );
+        }
+
+        await Task.WhenAll(animations);
+
+        infoLabel.Text = "Puu kasvas!";
+    }
+
+    //õite kasvamise meetod
+    private async Task BloomTree()
+    {
+        infoLabel.Text = "Puu õitseb...";
+
+        if (flowers.Count == 0)
+        {
+            AddFlower(0.45, 0.30, 20);
+            AddFlower(0.55, 0.28, 18);
+            AddFlower(0.38, 0.38, 16);
+            AddFlower(0.62, 0.38, 20);
+            AddFlower(0.50, 0.20, 18);
+            AddFlower(0.32, 0.30, 15);
+            AddFlower(0.68, 0.30, 15);
+        }
+
+        List<Task> animations = new List<Task>();
+
+        foreach (Frame flower in flowers)
+        {
+            animations.Add(
+                flower.FadeTo(1, animationSpeed)
+            );
+        }
+
+        await Task.WhenAll(animations);
+
+        infoLabel.Text = "Puu õitseb!";
     }
 }
