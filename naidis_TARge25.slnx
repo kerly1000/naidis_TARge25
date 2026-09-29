@@ -1,4 +1,7 @@
 <Solution>
+  <Project Path="../TicTocTrull/TicTocTrull.csproj" Id="70c91911-b766-4e90-9d10-7c24b9dd0587">
+    <Deploy />
+  </Project>
   <Project Path="../Valgusfoor/Valgusfoor.csproj" Id="c60fe0bd-aeeb-4c30-9390-9a809f9e5121">
     <Deploy />
   </Project>
