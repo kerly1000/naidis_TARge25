@@ -62,6 +62,10 @@ namespace naidis_TARge25
                 TextColor = Colors.Plum
             };
             btnkustuta.Clicked += Btnkustuta_Clicked;
+            entryNimetus = new Entry { Placeholder = "Nimetus" };
+            //entrytootja = new Entry { Placeholder = "Tootja" };
+            entryHind = new Entry { Placeholder = "Hind" };
+            //entryPilt = new Entry { Placeholder = "Pilt" };
 
             Content = new StackLayout
             {
@@ -74,7 +78,7 @@ namespace naidis_TARge25
 
         }
 
-        private void Btnkustuta_Clicked(object? sender, EventArgs e)
+        private async void Btnkustuta_Clicked(object? sender, EventArgs e)
         {
             Telefon phone = list.SelectedItem as Telefon;
 
@@ -85,7 +89,7 @@ namespace naidis_TARge25
             }
              else
             {
-                await DisplayAlert("Viga", "Palun vali nimekirjast telefon", "OK");
+                await DisplayAlertAsync("Viga", "Palun vali nimekirjast telefon", "OK");
             }
         }
 
