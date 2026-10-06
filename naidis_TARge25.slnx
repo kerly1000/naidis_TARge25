@@ -1,8 +1,9 @@
 <Solution>
-  <Project Path="../TicTocTrull/TicTocTrull.csproj" Id="70c91911-b766-4e90-9d10-7c24b9dd0587">
+  <Project Path="../MultilangApp/MultilangApp.csproj" Id="2df0316f-a393-47fc-b5e1-eada3afb6fee">
     <Deploy />
   </Project>
-  <Project Path="../Valgusfoor/Valgusfoor.csproj" Id="c60fe0bd-aeeb-4c30-9390-9a809f9e5121">
+  <Project Path="../PetGallery/PetGallery.csproj" Id="479c6301-afee-452b-8538-21226467603c" />
+  <Project Path="../TicTocTrull/TicTocTrull.csproj" Id="70c91911-b766-4e90-9d10-7c24b9dd0587">
     <Deploy />
   </Project>
   <Project Path="naidis_TARge25.csproj">
