@@ -1,0 +1,27 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="naidis_TARge25.TreePage"
+             Title="Puu">
+
+    <Grid RowDefinitions="55*,45*">
+
+        <!-- Puu ala -->
+        <AbsoluteLayout x:Name="TreeLayout"
+                        Grid.Row="0"
+                        BackgroundColor="SkyBlue">
+        </AbsoluteLayout>
+
+        <!-- Juhtpaneel -->
+        <ScrollView Grid.Row="1"
+                    BackgroundColor="White">
+
+            <VerticalStackLayout x:Name="ControlPanel"
+                                 Spacing="5"
+                                 Padding="10">
+            </VerticalStackLayout>
+
+        </ScrollView>
+
+    </Grid>
+
+</ContentPage>
